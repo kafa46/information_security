@@ -61,9 +61,13 @@ IETF는 1997년 제3자 쿠키를 허용하지 않거나 최소한 기본 설정
 
 하지만 `Set-Cookie2` 방식 역시 개발자들에게 외면 받게 되고 결국 2011년 4월에 [RFC-6265](https://datatracker.ietf.org/doc/rfc6265/) 표준으로 대체됩니다.
 
-<iframe src="https://datatracker.ietf.org/doc/rfc6265/" width="50%"></iframe>
+- CSS 발전과정 (이미지를 클릭해 주세요)
 
-결국 1994년 시작된 쿠키는 [RFC-6265](https://datatracker.ietf.org/doc/rfc6265/) 표준에 이르러 안정을 찾게 되고, 현재 우리가 사용하고 있는 쿠키는 모두 [RFC-6265](https://datatracker.ietf.org/doc/rfc6265/) 표준을 따르고 있습니다.
+[![CSS 발전 과정](https://s-core.co.kr/wp-content/uploads/2021/09/7808.png)](https://datatracker.ietf.org/doc/rfc6265/)
+</div>
+
+
+결국 1994년 시작된 쿠키는 [RFC-6265](https://datatracker.ietf.org/doc/rfc6265/) 표준에 이르러 안정을 찾게 되고, 현재 우리가 사용하고 있는 쿠키는 [RFC-6265](https://datatracker.ietf.org/doc/rfc6265/) 표준을 따르고 있습니다.
 
 
 ## Cookie 용도
@@ -85,15 +89,23 @@ IETF는 1997년 제3자 쿠키를 허용하지 않거나 최소한 기본 설정
 ## 브라우저에서 쿠키 확인하기
 웹 브라우저를 이용하면 쉽게 쿠키를 확인할 수 있습니다. 
 
-우리는 크롬 브라우저를 이용해 
+우리는 크롬 브라우저를 이용해 보도록 하겠습니다.
 
+크롬 메뉴 $\to$ 개발자 도구 $\to$ Application $\to$ Cookie $\to$ 해당 사이트의 쿠키 정보 확인
+
+<div style="text-align:center">
+    <figure>
+        <img src="../imgs/cookie_01_chrome_cookie_menu.png" width="80%">
+        <figcaption>크롬 개발자도구 메뉴</figcaption>
+    </figure>
+</div>
+
+쿠키 삭제, 허용, 관리하기는 구글 크롬의 [고객센터](https://support.google.com/chrome/answer/95647?hl=ko&co=GENIE.Platform%3DDesktop)를 참고하기 바랍니다.
 
 ## 쿠키 만들기
 
-
-
-
-
+가는 날이 장날이다.
+하지만, 가지 않는 날도 있다.
 
 # References
 
