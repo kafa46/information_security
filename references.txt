@@ -1,0 +1,23 @@
+XSS References
+
+youtube.com/watch?v=DoN7bkdQBXU
+웹 해킹 강좌 ⑦ - XSS(Cross Site Scripting) 공격의 개요와 실습 (Web Hacking Tutorial #07)
+
+https://youtu.be/cehEkpWl7fg
+웹 해킹 강좌 ⑧ - 해킹용 서버 구축과 XSS(Cross Site Scripting)를 통한 세션 탈취 (Web Hacking Tutorial #08)
+
+
+https://youtu.be/YvmetHjjPek
+웹 해킹 강좌 ⑨ - XST(Cross Site Tracing) 공격 기법 (Web Hacking Tutorial #09)
+
+
+Open Tutorials 활용 - 보안(XSS)
+https://opentutorials.org/module/3357/19935
+
+점프 투 파이썬 - 라이브러리 예제 편 15장 마크업 언어 다루기 082 XSS 공격을 막으려면? ― html
+082 XSS 공격을 막으려면? ― html
+https://wikidocs.net/127508
+
+Blogs
+[파이썬 기초]XSS(Cross-Site Scripting) 개념 및 방어 방법
+https://roadofdevelopment.tistory.com/38
