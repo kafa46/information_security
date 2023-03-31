@@ -123,8 +123,8 @@ HTTP 프로토콜은 무상태(stateless) 프로토콜입니다. 다시 말해 �
 먼저 가상환경에 flask를 설치합니다.
 
 ```{bash}
-# flask 설치 (가상환경에 설치)
-$ pip install flask
+# Flask 설치 (가상환경에 설치)
+$ pip install Flask
 
 # 설치 확인
 $ python
@@ -133,14 +133,7 @@ $ python
 '2.2.3'
 ```
 
-실습 서버를 위한 프로젝트 폴더를 하나 만듭니다. 우리는 `server`라는 폴더를 하나 만들겠습니다.
-각자 적당한 위치에 폴더를 하나 만들어 주세요.
-
-```{bash}
-$ mkdir server
-```
-
-`server` 폴더 안에 템플릿 파일(`html`) 파일을 저장하기 위한 `templates`폴더를 하나 만들어 주세요. (`templates`에 오타가 나지 않도록 주의합니다.)
+템플릿 파일(`html`) 파일을 저장하기 위한 `templates`폴더를 하나 만들어 주세요. (`templates`에 오타가 나지 않도록 주의합니다.)
 ```{bash}
 $ cd server
 $ mkdir templates
@@ -169,6 +162,10 @@ $ mkdir templates
 `cookie_server.py` 내용을 다음과 같이 작성합니다.
 
 ```{python}
+''' 파일 경로
+(venv) path_to_project_directory/cookie_server.py
+'''
+
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -178,16 +175,32 @@ def hello_cju():
     return render_template(
         'index.html'
     )
+
+if __name__=='__main__':
+    app.run()
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_cju():
+    return render_template(
+        'index.html'
+    )
+
+if __name__=='__main__':
+    app.run()
 ```
 
 현재까지 파일 구조는 다음과 같습니다.
 
 ```{bash}
---- server
+--- (여러분의 프로젝트 디렉토리)
     |
     ---- templates
     |    |
     |    ---- index.html
+    ---- venv
     cookie_server.py
 ```
 
@@ -196,40 +209,23 @@ def hello_cju():
 `sever` 폴더로 이동한 다음 아래 명령어를 차례로 실행합니다.
 
 ```{bash}
-$ export FLASK_APP=cookie_server
-$ export FLASK_DEBUG=true
-$ flask run
-```
-
-참고: 윈도우 환경에서 사용할 경우 `export` 대신 `set` 명령어를 사용하면 됩니다. 만약 윈도우 환경이지만 `git bash` 쉘을 사용하는 경우에는 `export` 명령어를 그대로 사용해도 됩니다.
-
-다음부터 3줄 명령어를 일일히 타이핑 하기 귀찮다면 shell 프로그램을 작성해 두면 편리합니다.
-`server`폴더 아래에 파일명 `run.sh`로 작성해 보겠습니다.
-
-```{bash}
-export FLASK_APP=cookie_server
-export FLASK_DEBUG=true
-flask run
-```
-
-다음부터는 `. run.sh` 라고 명령하면 위 3줄 명령어가 순차적으로 실행됩니다.
-
-
-서버를 실행하면 터미널에 다음과 같은 메시지가 출력됩니다.
-
-```{bash}
+(venv) $ python cookie_server
  * Serving Flask app 'cookie_server'
- * Debug mode: on
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Debug mode: off
+    WARNING: This is a development server. 
+    Do not use it in a production deployment. 
+    Use a production WSGI server instead.
  * Running on http://127.0.0.1:5000
-Press CTRL+C to quit
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 990-104-808
-127.0.0.1 - - [08/Mar/2023 05:53:13] "GET / HTTP/1.1" 200 -
 ```
 
-웹 브라우저 주소창에 `http://127.0.0.1:5000` 입력하면 아래 화면이 뜨면 정상입니다.
+위와 같은 메시지가 출력된다면 정상적으로 서버가 실행된 것입니다.
+메시지 중에서 현재 서비스하고 있는 URL이 보입니다.
+
+\* Running on [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+만약 VS Code로 개발을 하고 있다면 키보드 Ctl 키를 누른 상태에서 메시지의 URL을 클릭하면 서버에서 제공하는 웹페이지에 접속할 수 있습니다.
+
+만약 로컬 PC에서 실행한 경우라면 웹 브라우저 주소창에 `http://127.0.0.1:5000` 입력하고 아래 화면이 뜨면 정상입니다.
 
 <div style="text-align:center">
     <figure>
@@ -237,6 +233,72 @@ Press CTRL+C to quit
         <figcaption>쿠키 테스트 서버</figcaption>
     </figure>
 </div>
+
+Flask 서버를 실행할 때 필요한 몇 가지 옵션을 살펴보겠습니다.
+- `debug`: 디버그 모드를 적용 여부를 지정
+  - `True`: flask 서버를 구성하는 소스코드 변경이 있을 경우 자동으로 재시작, 에러가 발생하면 `Traceback` 메시지 제공
+  - `False`: 소스코드 변경이 있을 경우 서버를 수동으로 재시작 해야 함, `default` 값은 `False`
+- `host`: flask 서버에 접근 가능한 IP 주소를 설정합니다.
+  - `0.0.0.0`: 어떤 IP 주소라도 내 서버에 접근하는 것을 허용
+  - `default`: 아무것도 지정하지 않으면 `localhost`(127.0.0.1)로 자동 설정
+- `port`: flask 서버가 사용할 포트 번호
+  - `특정 숫자`: 지정한 숫자로 포트 개방
+  - `default`: 아무것도 지정하지 않으면 `5000`번으로 자동 설정
+
+아마존(AWS), 네이버 클라우드(Ncloud), 사내 서버, 학교 실습 서버 등과 같은 원격 서버에서 작업할 경우 `host`와 `port`를 설정해 주어야 합니다.
+
+만약 원격 서버에서 flask를 가동시킨 후 모든 컴퓨터가 `5001` 포트로 접속하게 하려면 다음과 같이 코딩하면 됩니다.
+
+```
+         :
+    (중간 생략)
+         :
+if __name__=='__main__':
+    # app.run()
+    app.run(host='0.0.0.0', port='80', debug=True)
+```
+* 코드가 잘 작동하려면 서버 방화벽에서 `5001`번 포트를 개방해 줘야 합니다.
+
+위 코드를 적용한 `cookie_server.py`는 다음과 같습니다.
+
+```{python}
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_cju():
+    return render_template(
+        'index.html'
+    )
+
+if __name__=='__main__':
+    app.run(host='0.0.0.0', port='5001', debug=True)
+```
+
+서버를 실행하면 터미널에 다음과 같은 메시지가 출력됩니다.
+
+
+
+```{bash}
+(venv) kafa46@cju-security:~/workspace/security_class/wk05_cookie_practice$ python cookie_server.py 
+ * Serving Flask app 'cookie_server'
+ * Debug mode: on
+WARNING: This is a development server. 
+Do not use it in a production deployment. 
+Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.41.49.108:5001
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 385-096-099
+182.209.156.73 - - [01/Apr/2023 04:13:08] "GET / HTTP/1.1" 200 -
+182.209.156.73 - - [01/Apr/2023 04:13:08] "GET /favicon.ico HTTP/1.1" 404 -
+```
+
+
 
 ## 쿠키 만들어서 사용자 브라우저에 저장하기
 
@@ -294,49 +356,6 @@ def hello_cju():
 예를 들어 일주일(7일)간 유효하게 하려면 위 예제에서 `passwd` 값을 쿠키로 굽고 `max_age`를 `60*60*24*7`으로 설정해 주면 됩니다. 추가된 코드는 다음과 같습니다.
 
 ```{python}
-from flask import Flask, make_response, render_template
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello_cju():
-    '''초기 접속 시 실행할 함수'''
-    # return render_template(
-    #     'index.html'
-    # )
-
-    # 쿠키 굽기(발행)
-    response = make_response(
-        render_template('index.html')
-    )
-
-    response.set_cookie('name', 'Hong Gil-dong') # 쿠키 굽기
-    response.set_cookie('universtiy', 'Chongju University') # 또 다른 쿠키 굽기
-
-    response.set_cookie('passwd', '1234', max_age=60*60*24*7) # 쿠키 유효 기간을 7일로 설정
-```
-
-결과 화면을 개발자도구로 확인하면 다음과 같습니다.
-<div style="text-align:left">
-    <figure>
-        <img src="../imgs/cookie_05_check_cookie_with_expiration.png" style="align center" width="70%">
-        <figcaption>유효 기간이 적용된 쿠키 확인</figcaption>
-    </figure>
-</div>
-
-참고로 flask의 경우 쿠키 유효기간을 정해주지 않으면 default 값으로 `Session` 으로 설정됩니다. 브라우저를 끄고 다시 접속하면(세션 종료) 쿠키는 삭제됩니다.
-
-## 서버에서 사용자의 쿠키 정보 확인하기
-
-쿠키를 사용자 브라우저에 구워 놨습니다. 이제부터 사용자가 접속할 때마다 쿠키 정보를 확인해 보도록 하겠습니다.
-
-flask에서 지원하는 get_cookie 함수를 이용하면 편리하게 확인할 수 있습니다.
-
-`cookie_server.py`에 다음과 같이 업데이트 합니다. 참고로 쿠키 정보는 request 메시지에 담겨오기 때문에 `request` 모듈을 임포트 해야 합니다.
-
-만약 쿠키 정보가 있다면 해당 정보를 추출해서 터미널에 출력하고, 쿠키가 없다면 새로 구워서 전달하도록 코드를 수정하였습니다. 다음 소스코드를 확인하세요.
-
-```{python}
 from flask import Flask, make_response, render_template, request
 
 app = Flask(__name__)
@@ -371,9 +390,31 @@ def hello_cju():
         response.set_cookie('passwd', '1234', max_age=60*60*24*7) # 쿠키 유효 기간을 7일로 설정
 
     return response
+
+if __name__=='__main__':
+    # app.run()
+    app.run(host='0.0.0.0', port='5001', debug=True)
 ```
 
-서버측 소스코드를 위와 같이 수정하고, `http://127.0.0.1:5000` 페이지를 새로고침하면 서버 터미널에 다음과 같은 정보가 출력됩니다.
+결과 화면을 개발자도구로 확인하면 다음과 같습니다.
+<div style="text-align:left">
+    <figure>
+        <img src="../imgs/cookie_05_check_cookie_with_expiration.png" style="align center" width="70%">
+        <figcaption>유효 기간이 적용된 쿠키 확인</figcaption>
+    </figure>
+</div>
+
+참고로 flask의 경우 쿠키 유효기간을 정해주지 않으면 default 값으로 `Session` 으로 설정됩니다. 브라우저를 끄고 다시 접속하면(세션 종료) 쿠키는 삭제됩니다.
+
+## 서버에서 사용자의 쿠키 정보 확인하기
+
+쿠키를 사용자 브라우저에 구워 놨습니다. 이제부터 사용자가 접속할 때마다 쿠키 정보를 확인해 보도록 하겠습니다.
+
+flask에서 지원하는 get_cookie 함수를 이용하면 편리하게 확인할 수 있습니다.
+
+`cookie_server.py`에 다음과 같이 업데이트 합니다. 참고로 쿠키 정보는 request 메시지에 담겨오기 때문에 `request` 모듈을 임포트 해야 합니다.
+
+서버측 소스코드를 위와 같이 수정하고, `http://127.0.0.1:5001` 페이지를 새로고침하면 서버 터미널에 다음과 같은 정보가 출력됩니다.
 
 <div style="text-align:left">
     <figure>

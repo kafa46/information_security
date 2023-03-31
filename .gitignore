@@ -1,4 +1,5 @@
 venv/
 .notebook
 .vscode
-__pychahe__
+__pychahe__/
+*.py[cod]

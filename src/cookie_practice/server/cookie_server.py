@@ -34,3 +34,7 @@ def hello_cju():
         response.set_cookie('passwd', '1234', max_age=60*60*24*7) # 쿠키 유효 기간을 7일로 설정
 
     return response
+
+if __name__=='__main__':
+    # app.run()
+    app.run(host='0.0.0.0', port='5001', debug=True)
