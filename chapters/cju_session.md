@@ -2,7 +2,7 @@
 
 세션이란 서버가 자신에게 접근 요청 (request 메시지)를 보낸 클라이언트(사용자)를 구별하는 방법입니다. 
 
-쿠키를 사용할 경우 네트워크 트랙픽이 증가할 수 있고, 보안에 취약하기 때문에 이를 보완하기 위해 세션이 등장하였습니다.
+쿠키를 사용할 경우 네트워크 트래픽이 증가할 수 있고, 보안에 취약하기 때문에 이를 보완하기 위해 세션이 등장하였습니다.
 
 세션은 클라이언트(사용자 브라우저)에 정보를 저장하는 쿠키(cookie)와 다르게 서버에 정보를 저장합니다. 서버에 연결 정보가 저장되기 때문에 쿠키보다 관리가 용이하고 보안 측면에서 강력합니다.
 
@@ -16,14 +16,14 @@
 
 장단점을 정리해 보았습니다.
 
-|순번|구분|내용|
-|:--|:--|:--|
-|1 <td rowspan="5">장점</td> |서버에 저장하기 때문에 관리가 편리(클라이언트의 환경을 시시콜콜 신경쓰지 않아도 됩니다.)|
+|순번<td rowspan="1">**구분**</td>|내용|
+|:--|:--|:--|:--|
+|1<td rowspan="5">장점</td>|서버에 저장하기 때문에 관리가 편리(클라이언트의 환경을 시시콜콜 신경쓰지 않아도 됩니다.)|
 |2|어느정도 보안을 유지할 수 있음|
 |3|웹 브라우저와 독립적으로 관리할 수 있음|
 |4|세션의 저장 개수나 용량에 제약이 없음(서버 용량만 허용하면 모두 가능)|
 |5|SessionID만 주고 받기 때문에 네트워크에 거의 부담을 주지 않음|
-|6|단점|관리할 세션이 아주 많아지면 서버에 부담이 될 수도 있음|
+|6<td rowspan="1">단점</td>|관리할 세션이 아주 많아지면 서버에 부담이 될 수도 있음|
 
 ## 세션과 쿠키 비교
 
@@ -36,7 +36,13 @@
 |속도|빠름|보통(서버 처리시간 필요)|
 |유효기간|장기간 살아있을 수 있음|시간 설정이 가능하지만 세션이 종료되면 무조건 만료|
 
-여기서 이런 의문이 듭니다. 대부분의 경우 세션이 관리하기도 편하고 보안에도 강하지만 속도 차이가 별로 안 난다면 굳이 쿠키를 왜 쓸까요?
+여기서 이런 의문이 듭니다. 대부분의 경우 세션이 관리하기도 편하고 보안에도 강하지만 속도 차이가 별로 안 난다면 굳이 쿠키를 왜 쓸까요? 
+
+세션은 보안면에서 강하지만 유지해야 할 세션이 많아지거나 무분별하게 만들면 서버의 자원(메모리)가 감당할 수 없을 수 있습니다. 이럴 경우 서버 속도가 느려지고 접속한 사람은 불편을 느낍니다. 
+
+반면에 쿠키는 사용자의 브라우저에 저장했다가 서버가 따로 요청하지 않아도 브라우저가 알아서 서버로 보내주기 때문에 서버 자원에 영향을 받지 않기 때문에 쿠키를 사용하는 것이 유리한 경우도 있습니다.
+
+개발자가 보안과 서버 자원을 잘 고려해서 판단하면 되겠습니다.
 
 # 세션의 작동 방식
 
@@ -47,8 +53,9 @@
     <div style="text-align:left">
         <figure>
             <img src="../imgs/session_01_basic_operation_login.png" width="80%">
-            <figcaption>Request 접수하여 클라이언트 식별 정보 추출 (이미지 출처: 
-            <a href="https://velog.io/@rlfrkdms1/%EC%BF%A0%ED%82%A4%EC%99%80-%EC%84%B8%EC%85%98%EC%9D%98-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC%EC%99%80-%EC%84%B8%EC%85%98%EC%9D%98-%EA%B5%AC%EC%A1%B0">Ddukddaki.log</a>)
+            <figcaption>
+                Request 접수하여 클라이언트 식별 정보 추출 (이미지: 
+                <a href="https://velog.io/@rlfrkdms1/%EC%BF%A0%ED%82%A4%EC%99%80-%EC%84%B8%EC%85%98%EC%9D%98-%EB%8F%99%EC%9E%91-%EC%9B%90%EB%A6%AC%EC%99%80-%EC%84%B8%EC%85%98%EC%9D%98-%EA%B5%AC%EC%A1%B0">Ddukddaki.log</a>)
             </figcaption>
         </figure>
     </div>
@@ -153,15 +160,18 @@ from flask_session import Session
 ```{bash}
 --- session_practice
                     |
-                    cookie_server.py
+                    session_server.py
 ```
 
+
+`Flask-Session` 객체는 다양한 설정을 지원하고 있습니다. 사전(`dictionary`) 자료형을 통해 필요한 설정값을 간단히 지정해 줄 수 있습니다. 우리가 session 관련하여 사용할 설정은 다음과 같습니다.
 - `SESSION_PERMANENT`
   - 세션의 유효시간을 설정합니다. Default 값은 `True` 입니다. 
-  - `True`인 경우 브라우저가 켜져 있는 한 세션이 유효
+  - `True`: 브라우저 종료 이후에도 세션 정보 유지 가능
+    - 세션 유효 시간은 `PERMANENT_SESSION_LIFETIME` 값을 이용하여 설정 ([참고문서](https://flask.palletsprojects.com/en/2.2.x/api/?highlight=session#flask.session))
   - `False`인 경우 정해진 시간이 지나면 세션을 종료
-    - 세션 유효 시간은 `PERMANENT_SESSION_LIFETIME` 값을 이용
 - `PERMANENT_SESSION_LIFETIME`
+  - default 값은 31일 (31 days)
   - 세션의 유효시간을 지정합니다. 인자값으로 `datetime.timedelta` 또는 정수값(초) 지정
 - `SESSION_TYPE`
   - 세션 정보를 어떻게 관리할 것인지 선택합니다. 기본값(default)은 `null` 입니다.
@@ -172,15 +182,17 @@ from flask_session import Session
   - `mongodb`: `MongoDB` 사용, [pymongo](https://pymongo.readthedocs.io/en/stable/) 모듈 필요
   - `sqlalchemy`: `Sqlalchemy` 사용, [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/) 모듈 필요
 
-플라스크 세션 설정에 대한 자세한 내용은 [공식문서](https://flasksession.readthedocs.io/en/latest/)를 참고하시기 바랍니다.
+위에서 설명한 내용을 바탕으로 flask 앱을 객체를 만들어 세션 설정을 잡은 다음 `Flask-Session`을 이용해 초기화 하는 방법은 다음과 같습니다.
 
 ```{python}
 app = Flask(__name__)
-app.config["SESSION_PERMANENT"] = False         # 세션 설정: 유효시간 사용
+app.config["SESSION_PERMANENT"] = True          # 세션 설정: 유효시간 사용
 app.config["PERMANENT_SESSION_LIFETIME"] = 30   # 세션 설정: 유효시간 설정
 app.config["SESSION_TYPE"] = "filesystem"       # 세션 설정: 서버의 파일 시스템 활용
 Session(app)                                    # 세션 초기화
 ```
+플라스크 세션 설정에 대한 자세한 내용은 [공식문서](https://flasksession.readthedocs.io/en/latest/)를 참고하시기 바랍니다.
+
 
 ## 템플릿 작성
 
@@ -230,7 +242,7 @@ Session(app)                                    # 세션 초기화
 
 ### 로그인 페이지 `login.html`
 
-웹사이트 방문자를 로그인
+웹사이트 방문자를 로그인할 수 있도록 보여주는 페이지
 
 ```{html}
 <!DOCTYPE html>
@@ -311,7 +323,7 @@ def logout():
     return redirect("/")
 ```
 
-완성된 세션 서버 `session_server.py` 전체 코드는 다음과 같습니다.
+완성된 세션 서버 `session_server.py` 전체 코드는 다음과 같습니다. 이번 session 실습 서버의 포트는 `5000`번으로 할당했습니다 (`app.run(host='0.0.0.0', port='5000', debug=True)`).
 
 ```{python}
 '''청주대학교 세션 실습 코드: session_server.py'''
@@ -320,14 +332,17 @@ from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 
 app = Flask(__name__)
-app.config["SESSION_PERMANENT"] = False
+# Flask config (app.config) 에서 설정 -> Session 객체 생성 시 업로드
+app.config["SESSION_PERMANENT"] = True
 app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설정
 app.config["SESSION_TYPE"] = "filesystem"
 
-# 세션 초기화 방법 1
+# Flask app을 Session 객체에 로딩
+
+# Session 객체 초기화 방법 1
 Session(app)
 
-# 세션 초기화 방법 2
+# Session 객체 초기화 방법 2
 # sess = Session()
 # sess.init_app(app)
 
@@ -344,7 +359,9 @@ def login():
     # 만약 form을 작성하여 제출하면 (POST 전송)
     if request.method == "POST":
 
-    	# 아이디와 비번을 세션에 등록
+        # DB에서 id/passwd 확인을 마쳤다고 가정
+
+    	# 접속세션 등록: 아이디와 비번을 세션에 등록
         session["id"] = request.form.get("id")
         session["passwd"] = request.form.get("passwd")
 
@@ -365,38 +382,26 @@ def logout():
 
     # 메인 화면으로 안내
     return redirect("/")
+
+
+if __name__=='__main__':
+    # app.run()
+    app.run(host='0.0.0.0', port='5000', debug=True)
+
 ```
 
-`sever` 폴더로 이동한 다음 아래 명령어를 차례로 실행합니다.
+프로젝트 디렉토리(우리 예제의 경우 `session_practice`)로 이동한 다음 서버를 실행합니다.
 
 ```{bash}
-$ export FLASK_APP=session_server
-$ export FLASK_DEBUG=true
-$ flask run
+(venv) $ python session_server.py
 ```
 
-참고: 윈도우 환경에서 사용할 경우 `export` 대신 `set` 명령어를 사용하면 됩니다. 만약 윈도우 환경이지만 `git bash` 쉘을 사용하는 경우에는 `export` 명령어를 그대로 사용해도 됩니다.
+서버를 로컬 PC에서 실행시킨 경우 브라우저 주소창에 `127.0.0.1:5000` 입력하면, 우리가 만든 세션 서버가 보내주는 `index.html`을 만나게 됩니다.
 
-다음부터 3줄 명령어를 일일히 타이핑 하기 귀찮다면 shell 프로그램을 작성해 두면 편리합니다.
-`server`폴더 아래에 파일명 `run.sh`로 작성해 보겠습니다.
+Ncloud를 사용한 경우 `공인_IP_주소:5000` 로 입력하면 로컬 PC와 동일하게 서버에서 제공하는 `index.html`을 볼 수 있습니다.
 
-```{bash}
-export FLASK_APP=cookie_server
-export FLASK_DEBUG=true
-flask run
-```
-
-다음부터는 `. run.sh` 라고 명령하면 위 3줄 명령어가 순차적으로 실행됩니다.
-
-터미널에서 쉡 스크립트를 실행합니다.
-```{bash}
-$ . run.sh
-```
-
-브라우저 주소창에 `127.0.0.1:5000` 입력하면, 우리가 만든 세션 서버가 보내주는 `index.html`을 만나게 됩니다.
-
-로그인 안되었을 경우 내용을 볼 수 있습니다.
-개발자도구 $\to$ Application $\to$ Cookies 를 확인하면 세션 쿠키가 잘 발행된 것을 확인할 수 있습니다.
+최초 접속했을 경우 내용을 볼 수 있습니다.
+개발자도구 $\to$ Application $\to$ Cookies 를 확인하면 로그인이 안된 상태로 세션 정보가 없는 것을 확인할 수 있습니다.
 
 <div style="text-align:left">
     <figure>
@@ -405,7 +410,11 @@ $ . run.sh
     </figure>
 </div>
 
-로그인(`login`) 버튼을 누르면 아이디와 
+로그인(`login`) 버튼 링크를 클릭하면 아이디와 비밀번호를 입력하는 화면으로 변경됩니다. 이 때 
+
+
+
+로그인(`login`) 버튼을 누르면 아이디와 비밀번호를 입력합니다.
 
 <div style="text-align:left">
     <figure>
@@ -431,7 +440,7 @@ $ . run.sh
 서버(`session_server.py`)에서 세션 유효기간을 30초로 지정했었습니다.
 
 ```{python}
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설정
 ```
 
@@ -468,10 +477,11 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설�
 # References
 |Title|Author|Source|Link|
 |:--|:--|:--|:--|
+|Flask-Session|Flask-Session|공식문서|[link](https://flasksession.readthedocs.io/en/latest/)|
+|Flask Cofiguration Handling|Flask official|Flask 공식문서|[link](https://flask.palletsprojects.com/en/2.2.x/config/)|
 |Session, HttpSession 인터페이스, 쿠키|dmchoi.log|개인 블로그|[link](https://velog.io/@dmchoi224/Session-HttpSession-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4.-%EC%BF%A0%ED%82%A4)|
 |쿠키와 세션 개념|RyanGomdoriPooh|개인 블로그|[link](https://interconnection.tistory.com/74)|
 |Set-Cookie|Mdn web docs|MDN 공식문서|[link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie)|
 |How to use Flask-Session in Python Flask?|GeeksforGeeks|블로그(외국)|[link](https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/)|
-|Flask-Session|Flask-Session|공식문서|[link](https://flasksession.readthedocs.io/en/latest/)|
 |Flask permanent session: where to define them?|patb|StackOverflow|[link](https://stackoverflow.com/questions/34118093/flask-permanent-session-where-to-define-them)|
 |Python - Flask(session) / 로그인, 회원정보 수정, 로그아웃, 회원리스트 받아오기|by 빵으니 2020. 6. 1.|개인 블로그|[link](https://velog.io/@dmchoi224/Session-HttpSession-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4.-%EC%BF%A0%ED%82%A4)|
