@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if session.id %}
+        <p>청주대학교에 로그인 되었습니다 ^^.</p>  
+        <p>{{ session.id }}님 반갑습니다 ^^. (비번: <span style="color: crimson;">{{ session.passwd }}</span>)</p>
+        <a href="/logout" class="btn btn-outline-primary my-3 mx-1">logout</a>
+        <a href="/create" class="btn btn-outline-primary my-3 mx-1">게시글 작성</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">순번</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일시</th>
+                    <th scope="col">제목</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in context.items %}
+                <tr>
+                    <td>{{ context.total - ((context.page-1) * context.per_page) - loop.index0 }}</td>
+                    <td>{{post.writer}}</td>
+                    <td>{{post.create_date | datetime}}</td>
+                    <td>
+                        <a href="{{ url_for('main.detail', post_id=post.id)  }}">{{post.title}}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    {% else %}
+        <p class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">로그인 하셔야 됩니다.</p> 
+        <a href="/login" class="btn btn-outline-primary">login</a>
+
+    {% endif %}
+
+    {% include 'pagination.html' %}    
+{% endblock %}

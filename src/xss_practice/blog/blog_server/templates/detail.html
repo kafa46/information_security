@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content%}
+    <a href="{{ url_for('main.index') }}" class="btn btn-outline-primary">목록으로 돌아가기</a>
+    <a href="{{ url_for('main.delete', post_id=context.id) }}" class="btn btn-outline-primary">삭제(맘에 안든다!)</a>
+    <div class="row">
+        <div class="col-sm shadow-lg pt-3 my-3 bg-body-tertiary rounded">
+            <p >제목: {{ context.title }}</p>
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-sm shadow-lg pt-3 my-3 bg-body-tertiary rounded">
+            <p >작성자: {{ context.writer }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm shadow-lg pt-3 my-3 bg-body-tertiary rounded">
+            <p >작성시간: {{ context.create_date }}</p>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-sm shadow-lg p-3 my-3 bg-body-tertiary rounded">
+            <div class="row shadow-sm p-3 mx-1 my-1 bg-body-tertiary rounded">내용</div>
+            <div class="form-floating">
+            <textarea class="form-control h-25" 
+                placeholder="Leave a comment here" 
+                id="floatingTextarea2" 
+                style="height: 100px"
+                rows="10"
+                readonly>{{ context.content }}</textarea>
+            <label for="floatingTextarea2"></label>
+            </div>
+        </div>
+    </div>    
+{% endblock %}
