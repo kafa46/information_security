@@ -97,7 +97,9 @@ def create():
         return redirect('/')
     
     # GET 요청일 경우 작성 양식 제공
-    return render_template('create.html')
+    return render_template(
+        'create.html',
+    )
 
 
 @bp.route("/detail/<int:post_id>")
@@ -109,6 +111,14 @@ def detail(post_id):
         context=post,
     )
 
+@bp.route("/modify/<int:post_id>")
+def modify(post_id):
+    '''게시글 제목을 클릭할 경우 세부내용 보여주기'''
+    post = Blog.query.get(post_id)
+    return render_template(
+        'modify.html',
+        context=post,
+    )
 
 @bp.route("/delete/<int:post_id>")
 def delete(post_id):

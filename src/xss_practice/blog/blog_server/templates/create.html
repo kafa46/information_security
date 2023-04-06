@@ -4,13 +4,21 @@
         <div class="mb-3">
             <div class="my-3" style="font-size: 20px;">게시글 등록 </div>
             <label for="title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
+            <input type="text" 
+                class="form-control" 
+                id="title" 
+                aria-describedby="emailHelp" 
+                name="title">
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
-            <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+            <textarea class="form-control" 
+                id="content"
+                name="content" 
+                rows="10"></textarea>
         </div>
         <button type="submit" class="btn btn-outline-primary">제출하기</button>
         <a href="{{ url_for('main.index') }}" class="btn btn-outline-primary">목록으로 돌아가기</a>
     </form>
+    
 {% endblock %}

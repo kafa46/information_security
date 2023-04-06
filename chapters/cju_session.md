@@ -81,8 +81,8 @@
             </figcaption>
         </figure>
     </div>
-    
-    - 클라이언트(브라우저)에 저장된 `sessionId` 값은 개발자도구 -> 네트워크 -> All 에서 확인할 수 있습니다.
+
+    - 클라이언트(브라우저)에 저장된 쿠키 값은 개발자도구 -> 네트워크 -> All 에서 확인할 수 있습니다. 하지만  `sessionId` 값을 정확히 식별해서 구분해 내는 것은 어렵습니다.
 
     <div style="text-align:left">
         <figure>
@@ -92,22 +92,23 @@
     </div>
 
     - 일반적으로 서버가 `set-cookie`로 설정해서 쿠키를 보내면 기본값으로 `HttpOnly` 옵션이 설정됩니다. 정확하게는 다음과 같이 세팅이 되어 클라이언트(브라우저)에게 보냅니다.
+
         ```{bash}
         Set-Cookie: <cookie-name>=<cookie-value>; HttpOnly
         ```
+
     - `HttpOnly`이 설정되면 자바스크립트를 통해 세션 쿠키값에 접근하는 것을 차단합니다. 우리들은 볼 수 없고, 브라우저만 알고 있다는 의미입니다. 이렇게 설정하는 이유는 cross-site scripting ([XSS](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting)) 공격의 위험을 감소시키기 위함입니다. XSS 공격은 나중에 배울 예정입니다.
-    
+
     <div style="text-align:left">
         <figure>
             <img src="../imgs/session_06_session_cookie_warning.png" width="80%">
             <figcaption>set-cookie 옵션 사용에 대한 경고</figcaption>
         </figure>
-    </div>    
-    
+    </div>
 
-4. 서버에서는 HTTP Request를 통해 쿠키에서 Session id를 확인을 한 후에 없으면 Set-Cookie를 통해 새로 발행한 Session-id 보냅니다. 
+5. 서버에서는 HTTP Request를 통해 쿠키에서 Session id를 확인을 한 후에 없으면 Set-Cookie를 통해 새로 발행한 Session-id 보냅니다.
 
-5. 클라이언트는 HTTP Request 헤더에 Session id를 포함하여 원하는 Resource를 요청을 합니다.
+6. 클라이언트는 HTTP Request 헤더에 Session id를 포함하여 원하는 Resource를 요청을 합니다.
 
     <div style="text-align:left">
         <figure>
@@ -118,25 +119,26 @@
         </figure>
     </div>
 
-6. 서버는 Session id를 통해 해당 세션을 찾아 클라이언트 상태 정보를 유지하며 적절한 응답을 합니다.
+7. 서버는 Session id를 통해 해당 세션을 찾아 클라이언트 상태 정보를 유지하며 적절한 응답을 합니다.
 
+## 세션 실습
 
-# 세션 실습
+### 실습 내용
 
-## 실습 내용
-  - 플라스크 확장기능을 이용하여 서버에서 관리하는 세션을 구축
-  - 세션은 클라이언트가 서버에 로그인 해서 로그 아웃하는 시간동안 유효
-  - 세선에 대한 정보는 서버의 임시 디렉토리에 저장
-  - 암호화된 쿠키 데이터 생성하고 쿠키 기반으로 저장
-  - 개별 클라이언트는 자신의 세션에 각각 저장된 데이터를 이용하여 세션을 유지
-  - 사용자는 세션을 이용하여 접속하고, 접속 이후 일정시간 세션을 유지
+- 플라스크 확장기능을 이용하여 서버에서 관리하는 세션을 구축
+- 세션은 클라이언트가 서버에 로그인 해서 로그 아웃하는 시간동안 유효
+- 세선에 대한 정보는 서버의 임시 디렉토리에 저장
+- 암호화된 쿠키 데이터 생성하고 쿠키 기반으로 저장
+- 개별 클라이언트는 자신의 세션에 각각 저장된 데이터를 이용하여 세션을 유지
+- 사용자는 세션을 이용하여 접속하고, 접속 이후 일정시간 세션을 유지
 
-## 의존성 설치
- 
-Flask 세션 확장팩 (`Flask-Session`) 설치 (가상환경에서 작업할 것을 강력히 권고합니다.)
+### 의존성 설치
 
-```{python}
-$ pip install Flask-Session
+의존성 설치는 가상환경에서 작업할 것을 강력히 권고합니다.
+Flask 세션 확장 패키지를 (`Flask-Session`) 설치 합니다.
+
+```{bash}
+(venv)$ pip install Flask-Session
 ```
 
 ## 세션 설정 및 초기화
@@ -145,7 +147,7 @@ $ pip install Flask-Session
 
 하지만 `session`에 직접 접근할 수 없으며, `flask_session` 객체를 통해 접근할 수 있습니다.
 
-개별 사용자는 각자의 `session`을 갖게 됩니다. 
+개별 사용자는 각자의 `session`을 갖게 됩니다.
 
 ```{python}
 from flask import Flask, render_template, redirect, request, session
@@ -163,8 +165,8 @@ from flask_session import Session
                     session_server.py
 ```
 
-
 `Flask-Session` 객체는 다양한 설정을 지원하고 있습니다. 사전(`dictionary`) 자료형을 통해 필요한 설정값을 간단히 지정해 줄 수 있습니다. 우리가 session 관련하여 사용할 설정은 다음과 같습니다.
+
 - `SESSION_PERMANENT`
   - 세션의 유효시간을 설정합니다. Default 값은 `True` 입니다. 
   - `True`: 브라우저 종료 이후에도 세션 정보 유지 가능
@@ -191,10 +193,10 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 30   # 세션 설정: 유효시간 �
 app.config["SESSION_TYPE"] = "filesystem"       # 세션 설정: 서버의 파일 시스템 활용
 Session(app)                                    # 세션 초기화
 ```
+
 플라스크 세션 설정에 대한 자세한 내용은 [공식문서](https://flasksession.readthedocs.io/en/latest/)를 참고하시기 바랍니다.
 
-
-## 템플릿 작성
+### 템플릿 작성
 
 프로젝트 디렉토리를 `session_practice` 그 안에 `templates`라는 디렉토리를 생성합니다.
 
@@ -244,7 +246,7 @@ Session(app)                                    # 세션 초기화
 
 웹사이트 방문자를 로그인할 수 있도록 보여주는 페이지
 
-```{html}
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,8 +265,7 @@ Session(app)                                    # 세션 초기화
 </html>
 ```
 
-
-## 서버 코딩 
+## 서버 코딩
 
 사용자가 웹사이트를 방문하면 메인 화면으로 `index.html` 파일을 제공하고, 로그인을 선택하면 `login.html`을 보여 줍니다.
 
@@ -285,7 +286,6 @@ def index():
 
 아래와 같이 코딩해 줍니다. `session_server.py`에 다음 내용을 추가합니다.
 
-
 ```{python}
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -293,14 +293,14 @@ def login():
     # 만약 form을 작성하여 제출하면 (POST 전송)
     if request.method == "POST":
 
-    	# 아이디와 비번을 세션에 등록
+        # 아이디와 비번을 세션에 등록
         session["id"] = request.form.get("id")
         session["passwd"] = request.form.get("passwd")
 
         # 로그인이 끝났으므로 메인 화면으로 이동
         return redirect("/")
 
-	# 만약 일반 접속(GET 전송)이라면 로그인 페이지를 제공
+    # 만약 일반 접속(GET 전송)이라면 로그인 페이지를 제공
     return render_template("login.html")
 ```
 
@@ -323,7 +323,7 @@ def logout():
     return redirect("/")
 ```
 
-완성된 세션 서버 `session_server.py` 전체 코드는 다음과 같습니다. 이번 session 실습 서버의 포트는 `5000`번으로 할당했습니다 (`app.run(host='0.0.0.0', port='5000', debug=True)`).
+완성된 세션 서버 `session_server.py` 전체 코드는 다음과 같습니다. 이번 session 실습 서버의 포트는 `5001`번으로 할당했습니다 (`app.run(host='0.0.0.0', port='5001', debug=True)`).
 
 ```{python}
 '''청주대학교 세션 실습 코드: session_server.py'''
@@ -361,14 +361,14 @@ def login():
 
         # DB에서 id/passwd 확인을 마쳤다고 가정
 
-    	# 접속세션 등록: 아이디와 비번을 세션에 등록
+        # 접속세션 등록: 아이디와 비번을 세션에 등록
         session["id"] = request.form.get("id")
         session["passwd"] = request.form.get("passwd")
 
         # 로그인이 끝났으므로 메인 화면으로 이동
         return redirect("/")
 
-	# 만약 일반 접속(GET 전송)이라면 로그인 페이지를 제공
+    # 만약 일반 접속(GET 전송)이라면 로그인 페이지를 제공
     return render_template("login.html")
 
 
@@ -386,7 +386,7 @@ def logout():
 
 if __name__=='__main__':
     # app.run()
-    app.run(host='0.0.0.0', port='5000', debug=True)
+    app.run(host='0.0.0.0', port='5001', debug=True)
 
 ```
 
@@ -396,9 +396,9 @@ if __name__=='__main__':
 (venv) $ python session_server.py
 ```
 
-서버를 로컬 PC에서 실행시킨 경우 브라우저 주소창에 `127.0.0.1:5000` 입력하면, 우리가 만든 세션 서버가 보내주는 `index.html`을 만나게 됩니다.
+서버를 로컬 PC에서 실행시킨 경우 브라우저 주소창에 `127.0.0.1:5001` 입력하면, 우리가 만든 세션 서버가 보내주는 `index.html`을 만나게 됩니다.
 
-Ncloud를 사용한 경우 `공인_IP_주소:5000` 로 입력하면 로컬 PC와 동일하게 서버에서 제공하는 `index.html`을 볼 수 있습니다.
+Ncloud를 사용한 경우 `공인_IP_주소:5001` 로 입력하면 로컬 PC와 동일하게 서버에서 제공하는 `index.html`을 볼 수 있습니다.
 
 최초 접속했을 경우 내용을 볼 수 있습니다.
 개발자도구 $\to$ Application $\to$ Cookies 를 확인하면 로그인이 안된 상태로 세션 정보가 없는 것을 확인할 수 있습니다.
@@ -412,8 +412,6 @@ Ncloud를 사용한 경우 `공인_IP_주소:5000` 로 입력하면 로컬 PC와
 
 로그인(`login`) 버튼 링크를 클릭하면 아이디와 비밀번호를 입력하는 화면으로 변경됩니다. 이 때 
 
-
-
 로그인(`login`) 버튼을 누르면 아이디와 비밀번호를 입력합니다.
 
 <div style="text-align:left">
@@ -422,7 +420,6 @@ Ncloud를 사용한 경우 `공인_IP_주소:5000` 로 입력하면 로컬 PC와
         <figcaption>로그인 화면</figcaption>
     </figure>
 </div>
-
 
 아이디와 비번을 입력하고 `제출` 버튼을 누르면 서버에서 보내준 세션 정보를 활용한 내용을 볼 수 있습니다.
 실습 예제로 아이디는 `abc`, 비번은 `1234`를 입력하고 `제출` 버튼을 눌러 보겠습니다. 
@@ -435,7 +432,6 @@ Ncloud를 사용한 경우 `공인_IP_주소:5000` 로 입력하면 로컬 PC와
         <figcaption>로그인 이후 화면</figcaption>
     </figure>
 </div>
-
 
 서버(`session_server.py`)에서 세션 유효기간을 30초로 지정했었습니다.
 
@@ -450,7 +446,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설�
 
 브라우저를 완전히 종료되지 않고, 세션 유효 시간이 남아 있다면 접속 창을 닫았다가 다시 접속해도 여전히 로그인 상태는 유지됩니다. 
 
-하지만 모든 브라우저를 종료했다가 다시 시작하면 이전에 우리가 접속했던 `127.0.0.1:5000` 서버에 대한 접속 세션 정보가 모두 사라집니다.
+하지만 모든 브라우저를 종료했다가 다시 시작하면 이전에 우리가 접속했던 `127.0.0.1:5001` 서버에 대한 접속 세션 정보가 모두 사라집니다.
 
 <div style="text-align:left">
     <figure>
@@ -458,8 +454,6 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설�
         <figcaption>로그인 이후 화면</figcaption>
     </figure>
 </div>
-
-
 
 여러분들도 한번 확인해 보시기 바랍니다.
 
@@ -473,8 +467,8 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 30  # 세션 유효기간 30초 설�
 
 이런 이유로 세션이 쿠키보다 보안 측면에서 강력하다고 이야기 합니다.
 
+## References
 
-# References
 |Title|Author|Source|Link|
 |:--|:--|:--|:--|
 |Flask-Session|Flask-Session|공식문서|[link](https://flasksession.readthedocs.io/en/latest/)|

