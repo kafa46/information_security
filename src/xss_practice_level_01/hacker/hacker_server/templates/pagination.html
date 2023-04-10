@@ -1,0 +1,49 @@
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+
+    <!-- 이전페이지 -->
+    <!-- &search_start={{search_start}}&search_end={{search_end}} -->
+    {% if context.has_prev %}
+    <li class="page-item">
+        <a class="page-link"
+            href="?search_year={{search_year}}&search_month={{search_month}}&search_start={{search_start}}&search_end={{search_end}}&page={{context.prev_num}}">이전</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">이전</a>
+    </li>
+    {% endif %}
+
+    <!-- 페이지번호 -->
+    {% for page_num in context.iter_pages() %}
+    {% if page_num %}
+    {% if page_num != context.page %}
+    <li class="page-item">
+        <a class="page-link"
+            href="?search_year={{search_year}}&search_month={{search_month}}&search_start={{search_start}}&search_end={{search_end}}&page={{page_num}}">{{ page_num }}</a>
+    </li>
+    {% else %}
+    <li class="page-item active" aria-current="page">
+        <a class="page-link" href="javascript:void(0)">{{ page_num }}</a>
+    </li>
+    {% endif %}
+    {% else %}
+    <li class="disabled">
+        <a class="page-link" href="javascript:void(0)">...</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+
+    <!-- 다음페이지 -->
+    {% if context.has_next %}
+    <li class="page-item">
+        <a class="page-link"
+            href="?search_year={{search_year}}&search_month={{search_month}}&search_start={{search_start}}&search_end={{search_end}}&page={{context.next_num}}">다음</a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+        <a class="page-link" tabindex="-1" aria-disabled="true" href="javascript:void(0)">다음</a>
+    </li>
+    {% endif %}
+</ul>
+<!-- 페이징처리 끝 -->

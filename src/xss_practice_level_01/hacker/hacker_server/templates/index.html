@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>해킹한 데이터</p>  
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">순번</th>
+                <th scope="col">수집일시</th>
+                <th scope="col">수집정보</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in context.items %}
+            <tr>
+                <td>{{ context.total - ((context.page-1) * context.per_page) - loop.index0 }}</td>
+                <td>{{post.create_date | datetime}}</td>
+                <td>{{post.content}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>        
+    {% include 'pagination.html' %}
+
+{% endblock %}
