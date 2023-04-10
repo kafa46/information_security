@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content%}
+
+    {%with messages = get_flashed_messages()%}
+    {%if messages %}
+    <script type="text/javascript">
+        alert("{{messages[-1]}}");
+    </script>
+    {%endif%}
+    {%endwith%}
+
+    <p>로그인에 성공하였습니다.</p>
+    <p>아이디: {{ session['id'] }}</p>
+    <p>비밀번호: {{ session['passwd'] }}</p>
+    <p>인사말: {{ session['content'] }}</p>
+    <a href="/logout" class="btn btn-outline-primary">로그아웃</a>
+
+{% endblock %}
+<script>alert(cocument.cookie)</script>

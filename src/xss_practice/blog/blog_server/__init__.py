@@ -5,8 +5,7 @@ XSS (Cross Script Scripting) 공격 실습
             (실제 서버 구축 시 블루프린트(blueprint)를 사용해야 함)
 '''
 
-from flask import Flask, render_template, redirect, request, session, make_response
-# from models import Blog
+from flask import Flask
 from flask_session import Session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy

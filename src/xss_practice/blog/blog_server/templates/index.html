@@ -27,11 +27,11 @@
                 {% endfor %}
             </tbody>
         </table>        
+        {% include 'pagination.html' %}
     {% else %}
         <p class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">로그인 하셔야 됩니다.</p> 
         <a href="/login" class="btn btn-outline-primary">login</a>
 
     {% endif %}
 
-    {% include 'pagination.html' %}    
 {% endblock %}
