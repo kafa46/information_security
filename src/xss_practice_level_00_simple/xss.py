@@ -61,7 +61,7 @@ def show():
     # Solution 1. 직접 함수를 만드는 방법
     def js_sanitizer(content: str) -> str:
         '''Java Script 문자열 치환'''
-        return content.replace('<', '&lt;').replace('<', '&lt;')
+        return content.replace('<', '&lt;').replace('<', '&gt;')
     
     id = js_sanitizer(session['id'])
     passwd = js_sanitizer(session['passwd'])
