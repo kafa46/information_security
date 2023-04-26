@@ -5,3 +5,4 @@ __pychahe__/
 *.py[cod]
 ../venv/
 *.db
+migrations/

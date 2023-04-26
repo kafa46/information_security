@@ -5,7 +5,7 @@ XSS (Cross Script Scripting) 공격 실습
             (실제 서버 구축 시 블루프린트(blueprint)를 사용해야 함)
 '''
 
-from flask import Flask
+from flask import Flask 
 from flask_session import Session
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -21,7 +21,7 @@ def create_app():
     app.config["SESSION_TYPE"] = "filesystem"
 
     # 블루프린트 등록
-    from .views import bp
+    from .hacker_views import bp
     app.register_blueprint(bp)
     
     # Flask app을 Session 객체에 로딩

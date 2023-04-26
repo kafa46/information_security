@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content%}
+<form action="/person_info" method="POST">
+    <div class="mb-3">
+        <label for="user_id" class="form-label">아이디</label>
+        <input type="text" class="form-control" id="user_id" name="user_id"
+            value="{{ user.user_id }}">
+    </div>
+    <div class="mb-3">
+        <label for="passwd" class="form-label">비밀번호</label>
+        <input type="password" class="form-control" id="passwd" name="passwd"
+            value="{{ user.passwd }}">
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">이름</label>
+        <input type="text" class="form-control" id="name" name="name"
+            value="{{ user.name }}">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">이메일</label>
+        <input type="text" class="form-control" id="email" name="email"
+            value="{{ user.email}}">
+    </div>
+    <div class="mb-3">
+        <label for="university" class="form-label">학교</label>
+        <input type="text" class="form-control" id="university" name="university"
+            value="{{ user.university }}">
+    </div>
+    <button type="submit" class="btn btn-primary">수정하기</button>
+    <a href="/" class="btn btn-outline-primary">홈 돌아가기</a>
+</form>
+{% endblock %}

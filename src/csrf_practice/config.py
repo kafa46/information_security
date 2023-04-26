@@ -4,7 +4,7 @@ import os
 
 BASE_DIR = os.path.dirname(__file__)
 
-sqlite_path = os.path.join(BASE_DIR, 'blog.db')
+sqlite_path = os.path.join(BASE_DIR, 'csrf.db')
 
 # DB 파일 생성 위치 및 파일명
 SQLALCHEMY_DATABASE_URI = f'sqlite:///{sqlite_path}'

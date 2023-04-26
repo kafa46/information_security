@@ -13,13 +13,18 @@
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8 shadow-lg p-3 my-5 bg-body-tertiary rounded">
-            <p class="d-flex justify-content-center my-3" style="font-size: 30px;">청주대학교 정보보안 실습용 블로그</p>
+            <p class="d-flex justify-content-center my-3" style="font-size: 30px;">청주대 정보보안 CSRF 실습 서버</p>
         </div>
         <div class="col-sm-2"></div>
     </div>
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
+            
+            {% for mesg in get_flashed_messages() %}
+            <div class="alert alert-success">{{mesg}}</div>
+            {% endfor %}
+
             {% block content %}
             {% endblock %}
         </div>
