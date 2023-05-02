@@ -57,14 +57,14 @@ def login():
         # 접속자 검증
         user_id = request.form.get('id')
         user_in_db = User.query.filter(User.user_id==user_id).first()
+        print(f'user_in_db: {user_in_db}, type: {type(user_in_db)}')
         if not user_in_db:
             flash('존재하지 않는 아이디 입니다.')
-            redirect('/login')
+            return render_template('login.html')
         passwd = request.form.get('passwd')
         if passwd != user_in_db.passwd:
             flash('비밀번호가 일치하지 않습니다.')
-            redirect('/login')
-
+            return render_template('login.html')
 
     	# 접속세션 등록: 아이디와 비번을 세션에 등록
         session["id"] = request.form.get("id")
@@ -154,7 +154,7 @@ def register():
     if request.method=='POST':
         required_info = []
         user_id = request.form.get('user_id')
-        check_user = User.query.filter(User.user_id==user_id)
+        check_user = User.query.filter(User.user_id==user_id).first()
         if check_user:
             flash('이미 존재하는 아이디 입니다.')
             return redirect('/register')
