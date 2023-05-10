@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content%}
 <form action="/person_info" method="POST">
-
+    <p>개발자가 직접 구현한 csrf 토큰을 적용한 secure coding</p>
     <!-- 사용자 정의 csrf_token -->
     <input type="text" name="csrf_token" value="{{ csrf_token }}" hidden>
 

@@ -22,7 +22,7 @@ def create_app():
     app.config["SECRET_KEY"] = '앱에서 사용할 비밀번호'
 
     # csrf 토큰 활성화
-    # app.config['WTF_CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_ENABLED'] = True
 
     # 블루프린트 등록
     from .views import bp

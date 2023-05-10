@@ -185,14 +185,14 @@ def register():
         'register.html',
     )
 
-@bp.route("/person_info", methods=["POST", "GET"])
-def person_info():
+@bp.route("/person_info_hack", methods=["POST", "GET"])
+def person_info_hack():
     user_id = session.get('id')
     print(f'user_id: {user_id}')
     user = User.query.filter(User.user_id==user_id).first()
 
     if request.method=='POST':
-        # # referrer 검증 코드
+        ## referrer 검증 코드
         # referrer = request.referrer
         # our_domain = request.host_url
         # print(f'\nreferrer: {referrer}')
@@ -204,20 +204,8 @@ def person_info():
         #         <br>요청 도메인: {referrer}\
         #         <br>수정 요청이 거부되었습니다!!')
         #     return redirect('/') # 메인으로 이동
-
-        # csrf_token 검증 코드
-        # csrf_token = request.form.get('csrf_token')
-        # print(f'\nreferrer: {request.referrer}')
-        # print(f'referrer csrf_token: {csrf_token}')
-        # print(f'session csrf_token: {session["csrf_token"]}')
-        # if csrf_token != session['csrf_token']:
-        #     flash('csrf 토큰이 일치하지 않습니다.\
-        #         <br>수정요청이 거부되었습니다.')
-        #     return redirect('/') # 메인으로 이동
-        # # csrf_token 초기화
-        # session['csrf_token'] = None
-
-        # form에서 필요한 정보 추출
+        
+        ## form에서 필요한 정보 추출
         user_id = request.form.get('user_id')
         passwd = request.form.get('passwd')
         name = request.form.get('name')
@@ -239,18 +227,63 @@ def person_info():
     session['csrf_token'] = csrf_token
     return render_template(
         'person_info_hack.html',
-        # 'person_info_secure.html',
         user=user,
         csrf_token = csrf_token
     )
 
 
-@bp.route("/person_info_secure", methods=["POST", "GET"])
-def person_info_secure():
+@bp.route("/person_info_secure_coding", methods=["POST", "GET"])
+def person_info_secure_coding():
+    user_id = session.get('id')
+    print(f'user_id: {user_id}')
+    user = User.query.filter(User.user_id==user_id).first()
+    if request.method=='POST':
+        # csrf_token 검증 코드
+        csrf_token = request.form.get('csrf_token')
+        print(f'\nreferrer: {request.referrer}')
+        print(f'referrer csrf_token: {csrf_token}')
+        print(f'session csrf_token: {session["csrf_token"]}')
+        if csrf_token != session['csrf_token']:
+            flash('csrf 토큰이 일치하지 않습니다.\
+                <br>수정요청이 거부되었습니다.')
+            return redirect('/') # 메인으로 이동
+        # csrf_token 초기화
+        session['csrf_token'] = None
+        # form에서 필요한 정보 추출
+        user_id = request.form.get('user_id')
+        passwd = request.form.get('passwd')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        university = request.form.get('university')
+        print(f'\nuser_id: {user_id}\tpasswd: {passwd}\tname: {name}\tuniversity: {university}')
+
+        user = User.query.filter(User.user_id==user_id).first()
+        user.user_id = user_id
+        user.passwd = passwd
+        user.name = name
+        user.email = email
+        user.university = university
+        db.session.commit()
+        flash('개인정보 수정을 완료하였습니다.')
+        return redirect('/')
+
+    csrf_token = create_csrf_token()
+    session['csrf_token'] = csrf_token
+    return render_template(
+        'person_info_secure_coding.html',
+        user=user,
+        csrf_token = csrf_token
+    )
+
+
+
+@bp.route("/person_info_flask_form", methods=["POST", "GET"])
+def person_info_flask_form():
     user_id = session.get('id')
     user = User.query.filter(User.user_id==user_id).first()
     form = PersonalInfomationForm()
-    
+    validation = form.validate_on_submit()
+    print(f'validation: {validation}, type: {type(validation)}')
     if request.method=='POST' and form.validate_on_submit():
         print('test')
         # form에서 필요한 정보 추출

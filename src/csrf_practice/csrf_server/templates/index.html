@@ -4,8 +4,9 @@
         <p>청주대학교에 로그인 되었습니다 ^^.</p>  
         <p>{{ session.id }}님 반갑습니다 ^^. (비번: <span style="color: crimson;">{{ session.passwd }}</span>)</p>
         <a href="/logout" class="btn btn-outline-primary my-3 mx-1">logout</a>
-        <a href="/person_info" class="btn btn-outline-primary">개인정보 수정(secure coding 적용)</a>
-        <a href="/person_info_secure" class="btn btn-outline-primary">개인정보 수정(flask form 적용)</a>
+        <a href="/person_info_hack" class="btn btn-outline-primary">개인정보 수정(취약성 코드 적용)</a>
+        <a href="/person_info_secure_coding" class="btn btn-outline-primary">개인정보 수정(secure coding 적용)</a>
+        <a href="/person_info_flask_form" class="btn btn-outline-primary">개인정보 수정(flask form 적용)</a>
 
         <p><a href="/create" class="btn btn-outline-primary my-3 mx-1">게시글 작성</a></p>
         <table class="table">

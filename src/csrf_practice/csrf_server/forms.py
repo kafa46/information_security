@@ -7,7 +7,7 @@ class PersonalInfomationForm(FlaskForm):
     user_id = StringField('user_id', validators=[DataRequired()])
     passwd = PasswordField('passwd', validators=[DataRequired()])
     name = StringField('name', validators=[DataRequired()])
-    email = EmailField('email', validators=[DataRequired()])
-    university = StringField('university', validators=[DataRequired(), Email()])
+    email = EmailField('email', validators=[DataRequired(), Email()])
+    university = StringField('university', validators=[DataRequired()])
     
     

